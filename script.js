@@ -17,8 +17,6 @@ const img = new Image();
 img.src = currentFrame(1);
 
 const drawImage = () => {
-  if (!imgLoaded) return; // Se a imagem atual não estiver carregada, saia da função
-
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;
   const aspectRatio = img.width / img.height;
@@ -26,25 +24,15 @@ const drawImage = () => {
   let imgWidth, imgHeight, offsetX, offsetY;
 
   if (canvasAspectRatio > aspectRatio) {
-    // Se a proporção da tela for maior que a proporção da imagem
     imgWidth = windowWidth;
     imgHeight = imgWidth / aspectRatio;
     offsetX = 0;
     offsetY = (windowHeight - imgHeight) / 2;
   } else {
-    // Se a proporção da tela for menor que a proporção da imagem
     imgHeight = windowHeight;
     imgWidth = imgHeight * aspectRatio;
     offsetY = 0;
     offsetX = (windowWidth - imgWidth) / 2;
-  }
-
-  // Verifica se a tela é ultralarga e ajusta a altura da imagem, se necessário
-  if (canvasAspectRatio > 2) {
-    imgHeight = windowHeight;
-    imgWidth = imgHeight * aspectRatio;
-    offsetX = (windowWidth - imgWidth) / 2;
-    offsetY = 0;
   }
 
   canvas.width = windowWidth;
