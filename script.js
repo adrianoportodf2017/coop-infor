@@ -2,22 +2,19 @@ const html = document.documentElement;
 const canvas = document.getElementById("hero-lightpass");
 const context = canvas.getContext("2d");
 
-const frameCount = 500;
+const frameCount = 479;
 const currentFrame = (index) =>
-`gif/frame_${index.toString().padStart(5, "0")}.gif`;
+  `gif/frame_${index.toString().padStart(5, "0")}.gif`;
 
-let imgIndex = 1; // Índice da imagem atual
-let imgLoaded = false; // Flag para controlar se a imagem atual foi carregada
+const preloadImages = () => {
+  for (let i = 1; i < frameCount; i++) {
+    const img = new Image();
+    img.src = currentFrame(i);
+  }
+};
 
 const img = new Image();
-
-const loadImage = (index) => {
-  img.src = currentFrame(index);
-  img.onload = () => {
-    imgLoaded = true;
-    drawImage();
-  };
-};
+img.src = currentFrame(1);
 
 const drawImage = () => {
   if (!imgLoaded) return; // Se a imagem atual não estiver carregada, saia da função
@@ -55,10 +52,13 @@ const drawImage = () => {
   context.drawImage(img, offsetX, offsetY, imgWidth, imgHeight);
 };
 
+img.onload = drawImage;
+
+window.addEventListener("resize", drawImage);
+
 const updateImage = (index) => {
-  if (!imgLoaded || index === imgIndex) return; // Se a imagem atual não estiver carregada ou for a mesma imagem, não faça nada
-  imgIndex = index;
-  loadImage(imgIndex);
+  img.src = currentFrame(index);
+  //drawImage();
 };
 
 window.addEventListener("scroll", () => {
@@ -70,8 +70,7 @@ window.addEventListener("scroll", () => {
     Math.ceil(scrollFraction * frameCount)
   );
 
-  updateImage(frameIndex + 1);
+  requestAnimationFrame(() => updateImage(frameIndex + 1));
 });
 
-// Inicializa carregando a primeira imagem
-loadImage(imgIndex);
+preloadImages();
