@@ -9,7 +9,7 @@ const currentFrame = (index) => `webp/animacao base_${index.toString().padStart(
 
 
 const preloadImages = () => {
-  for (let i = 1; i < frameCount; i += 2) {
+  for (let i = 1; i < frameCount; i++) {
     const img = new Image();
     img.src = currentFrame(i);
   }
