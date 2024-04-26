@@ -3,7 +3,7 @@ const canvas = document.getElementById("hero-lightpass");
 const context = canvas.getContext("2d");
 
 const frameCount = 1049;
-const currentFrame = (index) => `webp/animacao base_${index.toString().padStart(5, "0")}.webp`;
+const currentFrame = (index) => `webp/${index.toString().padStart(5, "0")}.webp`;
 //  `gif/animacao base_${index.toString().padStart(5, "0")}.jpg`;
 //animacao-base_00000.wbm
 
